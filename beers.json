@@ -12,6 +12,9 @@
    "about": "Modern craft brewery founded in 2013, known for fruit-forward pales and IPAs, including its best-selling Lumina.",
    "taste": "Bright and easy drinking. Sweet tropical fruit, sticky peach and citrus zest, finishing crisp with gentle bitterness.",
    "pairing": "Fish and chips, grilled chicken, summer salads.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Brewed specially for cask."
   },
   {
@@ -20,7 +23,10 @@
    "name": "Nectaron",
    "brewery": "Oakham",
    "place": "Peterborough, Cambridgeshire",
-   "about": "Started in Rutland in 1993 and based in Peterborough since 1998. Says it was the first UK brewery to brew commercially with Citra hops."
+   "about": "Started in Rutland in 1993 and based in Peterborough since 1998. Says it was the first UK brewery to brew commercially with Citra hops.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -33,6 +39,9 @@
    "about": "Shropshire brewer that moved to a bigger site at Hadnall in 2014. Cask is its heart, with keg, cans and bottles added since.",
    "taste": "Crisp, sunflower-gold ale with a striking hop profile. Floral and grapefruit, dry and refreshing with a long citrus finish.",
    "pairing": "Grilled fish, chicken salad, mild cheeses.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Award-winning: International Beer Challenge best ale and SIBA bottled golden champion."
   },
   {
@@ -46,6 +55,9 @@
    "about": "Derbyshire brewery that began in 2007 in an old stable block.",
    "taste": "Crisp and sharply citrus, lemon and grapefruit, with a bitter finish.",
    "pairing": "Spicy chicken wings, fish tacos.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Multi-award-winning, single-hop Citra session beer."
   },
   {
@@ -59,6 +71,9 @@
    "about": "Sheffield brewery that has made Deception since 2008 and has passed 25 years of brewing.",
    "taste": "Light, crisp and citrusy with a grapefruit bite.",
    "pairing": "Seafood, sushi, goat's cheese.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "A New Zealand-style pale ale built on Nelson Sauvin hops. Brewed since 2008."
   },
   {
@@ -67,7 +82,10 @@
    "name": "Spacelord",
    "brewery": "Green Duck",
    "place": "Stourbridge, West Midlands",
-   "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site."
+   "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -75,7 +93,10 @@
    "name": "A King of Magic",
    "brewery": "Castle Rock",
    "place": "Nottingham",
-   "about": "Independent Nottingham brewery, brewing since 1997, with its own small estate of pubs."
+   "about": "Independent Nottingham brewery, brewing since 1997, with its own small estate of pubs.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -83,7 +104,10 @@
    "name": "Art of the Van",
    "brewery": "Fixed Wheel",
    "place": "Blackheath, Black Country, West Midlands",
-   "about": "Set up in 2014 by cycling and brewing enthusiasts Scott Povey and Sharon Bryant, hence the bike-themed names. Brews on an eight-barrel plant and began canning in 2021."
+   "about": "Set up in 2014 by cycling and brewing enthusiasts Scott Povey and Sharon Bryant, hence the bike-themed names. Brews on an eight-barrel plant and began canning in 2021.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -96,6 +120,9 @@
    "about": "Suffolk coastal brewer based in Southwold. Ghost Ship is its best-selling beer.",
    "taste": "Lemon and lime, elderflower aroma, biscuity malt and a famous hoppy finish.",
    "pairing": "Ploughman's lunch, grilled meat, spicy food, pizza.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Built around Citra hops with rye crystal malt."
   },
   {
@@ -104,7 +131,10 @@
    "name": "How Soon is Now",
    "brewery": "Salopian",
    "place": "Hadnall, near Shrewsbury, Shropshire",
-   "about": "Shropshire brewer that moved to a bigger site at Hadnall in 2014. Cask is its heart, with keg, cans and bottles added since."
+   "about": "Shropshire brewer that moved to a bigger site at Hadnall in 2014. Cask is its heart, with keg, cans and bottles added since.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -112,7 +142,10 @@
    "name": "Sowing the Seed",
    "brewery": "Twisted Barrel",
    "place": "Coventry, West Midlands",
-   "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site."
+   "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -125,6 +158,9 @@
    "about": "Dark Star beers are listed by CAMRA as brewed by Fuller's in Chiswick. American Pale Ale is one of its classic cask beers.",
    "taste": "Crisp and citrusy with a signature dry finish.",
    "pairing": "Burgers, buffalo wings, tacos.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Cascade, Chinook and Centennial hops on Maris Otter malt."
   },
   {
@@ -137,6 +173,9 @@
    "place": "Nuneaton, Warwickshire",
    "about": "Started in 1994 in an old coffin shop in Shustoke and moved to its current site in 2001. Known for one-off specials and old-recipe beers.",
    "pairing": "Roast chicken, mature cheddar.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Voted Best Strong Bitter at the Great British Beer Festival."
   },
   {
@@ -150,6 +189,9 @@
    "about": "Founded in 1998 behind the Brewers Pride pub in Ossett. Silver King and Excelsius were the original beers.",
    "taste": "Citrus aroma, clean and crisp, with a drier bitter finish.",
    "pairing": "Fish and chips, chicken, light curries.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Lager malt and Cascade hops. An award winner since 2001."
   },
   {
@@ -158,7 +200,10 @@
    "name": "Sherbert Lemon",
    "brewery": "Riverhead",
    "place": "Marsden, near Huddersfield, West Yorkshire",
-   "about": "Brewpub on the River Colne, brewing since 1995 and now part of the Ossett group. Its beer names are tied to local reservoirs."
+   "about": "Brewpub on the River Colne, brewing since 1995 and now part of the Ossett group. Its beer names are tied to local reservoirs.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -166,7 +211,10 @@
    "name": "Blonde",
    "brewery": "Green Duck",
    "place": "Stourbridge, West Midlands",
-   "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site."
+   "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -174,7 +222,10 @@
    "name": "Rat to the Future",
    "brewery": "Rat Brewery",
    "place": "Huddersfield, West Yorkshire",
-   "about": "Brewery at the Rat & Ratchet pub, restarted in 2011 and part of the Ossett group. Known for rat-themed beer names."
+   "about": "Brewery at the Rat & Ratchet pub, restarted in 2011 and part of the Ossett group. Known for rat-themed beer names.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -182,7 +233,10 @@
    "name": "Ember",
    "brewery": "Attic",
    "place": "Stirchley, Birmingham",
-   "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley."
+   "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cask",
@@ -195,6 +249,9 @@
    "about": "Started in 1994 in an old coffin shop in Shustoke and moved to its current site in 2001. Known for one-off specials and old-recipe beers.",
    "taste": "Hoppy and bitter at first, softening to a delicate malt finish.",
    "pairing": "Pub pies, sausages, cheddar.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Straw-coloured best bitter."
   },
   {
@@ -208,6 +265,9 @@
    "about": "A collaboration. Titanic was founded in Burslem, Stoke-on-Trent in 1985 by brothers Keith and Dave Bott and is named after Captain Edward Smith, who came from Stoke. Castle Rock has brewed in Nottingham since 1997.",
    "taste": "Soft chocolate and toasted malt with aromatic coffee and no harsh bitterness. A lighter, sessionable Baltic porter.",
    "pairing": "Chocolate dessert, smoked sausage, blue cheese.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Collaboration brewed with Honduran coffee from Chartley Coffee, added in the mash."
   },
   {
@@ -221,6 +281,9 @@
    "about": "Set up in 2014 by cycling and brewing enthusiasts Scott Povey and Sharon Bryant, hence the bike-themed names. Brews on an eight-barrel plant and began canning in 2021.",
    "taste": "Full-bodied and fruity, with an oaky bitterness and a creamy dark-fruit finish.",
    "pairing": "Steak pie, chocolate brownie, oysters.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Fixed Wheel's first beer, named after its Black Country home. Champion Winter Beer of Britain 2020. New Zealand Pacific Gem and English Bramling Cross hops."
   },
   {
@@ -234,6 +297,9 @@
    "about": "Modern craft brewery founded in 2013, known for fruit-forward pales and IPAs, including its best-selling Lumina.",
    "taste": "Juicy tropical fruit with a pillowy soft mouthfeel and a light haze.",
    "pairing": "Fish tacos, falafel, Thai food.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Siren's best seller since 2020. Vegan and gluten free."
   },
   {
@@ -242,7 +308,10 @@
    "name": "It must be love",
    "brewery": "Twisted Barrel",
    "place": "Coventry, West Midlands",
-   "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site."
+   "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Keg",
@@ -255,6 +324,9 @@
    "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley.",
    "taste": "Citrus and stone fruit, leaning towards grapefruit and apricot.",
    "pairing": "Burgers, spicy food.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Attic's core IPA. Vegan."
   },
   {
@@ -263,7 +335,10 @@
    "name": "HBD",
    "brewery": "Attic",
    "place": "Stirchley, Birmingham",
-   "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley."
+   "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5
   },
   {
    "cat": "Cider",
@@ -276,6 +351,9 @@
    "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
    "taste": "Pineapple, rum and coconut blended with crisp Somerset cider. Smooth, sweet and summery.",
    "pairing": "Jerk chicken, grilled prawns.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Lightly sparkling."
   },
   {
@@ -289,6 +367,9 @@
    "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
    "taste": "Sweet rhubarb flavour with a tart edge over a crisp apple base.",
    "pairing": "Roast pork, mild cheeses.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Lightly sparkling."
   },
   {
@@ -302,6 +383,9 @@
    "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
    "taste": "Full-bodied and fruity, bursting with juicy apple.",
    "pairing": "Pork pie, barbecue pork, cheddar.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Rustic, medium sweet."
   },
   {
@@ -315,6 +399,9 @@
    "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
    "taste": "Sparkling, medium-sweet perry with a subtle pear aroma.",
    "pairing": "Blue cheese, duck, fruit desserts.",
+   "price": 6.0,
+   "price_half": 3.0,
+   "price_third": 2.5,
    "notes": "Award-winning perry. Gold, three-star Great Taste Award in 2018."
   }
  ]
