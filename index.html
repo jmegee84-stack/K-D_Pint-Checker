@@ -87,6 +87,7 @@ label.btn.small:focus-within{outline:3px solid var(--ember);outline-offset:2px}
 .abv{font-variant-numeric:tabular-nums;font-weight:800;background:var(--brass);color:#2a1a10;border-radius:4px;padding:3px 9px;font-size:15px;white-space:nowrap;box-shadow:inset 0 -2px 0 var(--brass-dark)}
 .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:6px;align-items:center}
 .tag{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:var(--stripe);color:#fff}
+.size .szp{display:block;font-size:13px;font-weight:600;opacity:.8;margin-top:2px}
 .tag.price{background:transparent;border:1.5px solid var(--brass);color:var(--brass)}
 .avg{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
 .mine{font-size:13px;font-weight:800;color:var(--good)}
@@ -233,12 +234,13 @@ var DEFAULT_ROWS = [
 ];
 var ALIAS={category:"cat",format:"cat",dispense:"cat",section:"cat",number:"num",no:"num",num:"num",pump:"num",beer:"name",name:"name",beername:"name",brewery:"brewery",style:"type",type:"type",abv:"abv",alcohol:"abv",location:"place",brewedin:"place",town:"place",place:"place",breweryinfo:"about",aboutbrewery:"about",about:"about",description:"about",taste:"taste",tastingnotes:"taste",flavour:"taste",flavor:"taste",pairing:"pairing",foodpairing:"pairing",pairswith:"pairing",price:"price",pintprice:"price",notes:"notes",details:"notes"};
 function slug(x){return String(x).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+function money(v){return parseFloat(String(v==null?"":v).replace(/[^0-9.]/g,""))||0}
 function mkBeer(o,edition){
   var cat=String(o.cat||"Beer").replace(/\s+/g," ").trim(); cat=cat.charAt(0).toUpperCase()+cat.slice(1).toLowerCase();
   var num=parseInt(o.num,10)||0;
   return {id:slug(edition)+"-"+slug(cat)+"-"+(num||slug(o.name)),cat:cat,num:num,name:String(o.name).trim(),brewery:o.brewery||"",type:o.type||"",
     abv:parseFloat(String(o.abv||"").replace("%",""))||0,place:o.place||"",about:o.about||"",notes:o.notes||"",taste:o.taste||"",pairing:o.pairing||"",
-    price:parseFloat(String(o.price||"").replace(/[^0-9.]/g,""))||0};
+    price:money(o.price),pHalf:money(o.price_half),pThird:money(o.price_third)};
 }
 function dedupe(list){var seen={};return list.map(function(b,i){if(seen[b.id]){b.id=b.id+"-"+i}seen[b.id]=1;return b})}
 var BEERS = dedupe(DEFAULT_ROWS.map(function(r){return mkBeer(r,EDITION)}));
@@ -331,11 +333,16 @@ function beerEl(b,cls){
   var ph=function(){var el=h("span",{class:"bimg ph "+cls,"aria-hidden":"true"}); el.innerHTML=GLASS; return el};
   return tryImg([base+".jpg",base+".png",base+".webp"],"bimg "+cls,b.name+" in the glass",ph);
 }
+function pf(v){return FESTIVAL.currency+v.toFixed(2)}
+function priceLine(b){
+  var o=[]; if(b.pThird) o.push("Third "+pf(b.pThird)); if(b.pHalf) o.push("Half "+pf(b.pHalf)); if(b.price) o.push("Pint "+pf(b.price));
+  return o.join(" · ");
+}
 function card(b){
   var st=statsFor(b.id), my=mine[b.id], open=openId===b.id;
   var meta=[h("span",{class:"tag",text:b.cat+(b.num?" "+b.num:"")})];
   if(b.type) meta.push(h("span",{class:"tag",text:b.type}));
-  if(b.price) meta.push(h("span",{class:"tag price",text:FESTIVAL.currency+b.price.toFixed(2)+" / pint"}));
+  if(b.price) meta.push(h("span",{class:"tag price",text:"Pint "+FESTIVAL.currency+b.price.toFixed(2)}));
   meta.push(st.n?h("span",{class:"avg",text:"★ "+st.avg.toFixed(1)+"/10 ("+st.n+")"}):h("span",{class:"avg",text:"Not rated yet"}));
   if(my&&typeof my.score==="number") meta.push(h("span",{class:"mine",text:"Your score: "+my.score}));
   var head=h("button",{class:"head",type:"button","aria-expanded":String(open),on:{click:function(){openId=open?null:b.id;renderList();if(!open){var el=document.getElementById("c-"+b.id);if(el)el.scrollIntoView({block:"nearest"})}}}},[
@@ -353,6 +360,7 @@ function card(b){
     rows.push(h("dd",null,[h("div",{class:"brewbox"},[logoEl(b,"lg"),h("div",null,[h("b",{text:b.brewery}),b.about?h("span",{text:b.about}):null])])]));
     add("Brewed in",b.place);
     add("Style",[b.type,b.abv?b.abv.toFixed(1)+"% ABV":""].filter(Boolean).join(" · "));
+    add("Prices",priceLine(b));
     add("Details",b.notes); add("Taste",b.taste); add("Pair with",b.pairing);
     var kids=[beerEl(b,"hero"),h("dl",null,rows)];
     if(!(b.taste||b.notes||b.pairing)) kids.push(h("p",{class:"avg",text:"Tasting notes for this one are coming soon."}));
@@ -391,7 +399,7 @@ function ratePanel(b,st){
       return box;
     }
     wrap.appendChild(h("div",{class:"row"},[
-      h("div",{class:"lab"},[h("span",{text:"Price"}),h("small",{text:"1 = rip-off · 5 = bargain"+(b.price?" at "+FESTIVAL.currency+b.price.toFixed(2):"")})]),
+      h("div",{class:"lab"},[h("span",{text:"Price"}),h("small",{text:"1 = rip-off · 5 = bargain"+(b.price?" · pint "+pf(b.price):"")})]),
       stars2("price","Price rating")
     ]));
     wrap.appendChild(h("div",{class:"row"},[
@@ -421,7 +429,10 @@ function ratePanel(b,st){
       h("div",{class:"glassrow"},[glass,h("div",{class:"glassright"},[big,range])])
     ]));
     var sz=h("div",{class:"sizes",role:"group","aria-label":"Pint size recommendation"});
-    SIZES.forEach(function(sx){ sz.appendChild(h("button",{class:"size","data-v":sx.k,type:"button","aria-pressed":String(r.size===sx.k),text:sx.label,on:{click:function(){pick("size",sx.k,sz)}}})); });
+    SIZES.forEach(function(sx){
+      var pr=sx.k==="third"?b.pThird:sx.k==="half"?b.pHalf:b.price;
+      sz.appendChild(h("button",{class:"size","data-v":sx.k,type:"button","aria-pressed":String(r.size===sx.k),on:{click:function(){pick("size",sx.k,sz)}}},[sx.label,pr?h("small",{class:"szp",text:pf(pr)}):null]));
+    });
     wrap.appendChild(h("div",{class:"row"},[h("div",{class:"lab"},[h("span",{text:"Best served as a"}),h("small",{text:"what size would you order?"})]),sz]));
     sub.disabled=true;
     sub.addEventListener("click",function(){

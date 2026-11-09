@@ -61,7 +61,7 @@ Only email people with **Yes** in the Marketing OK column.
 
 ## Changing the beer list next year
 
-1. Save your new list as CSV in the same columns as `data/beer-list-2025.csv`.
+1. Save your new list as CSV in the same columns as `data/beer-list-2025.csv`. Put prices in pounds in the three price columns (for example 5.50). Leave a size blank if the bar does not sell it.
 2. Run `python3 tools/csv_to_beers.py data/your-list.csv 2026 > beers.json` and commit `beers.json`. (Or ask Claude to do it for you.)
 3. Beer IDs include the year, so the new festival starts with clean ratings.
 
