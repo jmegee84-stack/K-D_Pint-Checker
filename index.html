@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pint Checker</title>
+<title>K&amp;D Beer Fest - Pint Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <style>
@@ -36,11 +36,11 @@ button{cursor:pointer}
 
 header{position:sticky;top:0;z-index:10;background:linear-gradient(var(--wood2),var(--wood));border-bottom:4px double var(--brass);padding:10px 0 10px;box-shadow:0 6px 14px rgba(0,0,0,.5)}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1;margin:0;color:var(--brass);letter-spacing:.01em;text-shadow:0 2px 0 #000,0 0 14px rgba(201,162,74,.35);text-wrap:balance}
-h1 span{color:var(--cream)}
+h1{font-family:var(--display);font-weight:400;font-size:28px;line-height:1;margin:0;color:var(--brass);letter-spacing:.01em;text-shadow:0 2px 0 #000,0 0 14px rgba(201,162,74,.35);text-wrap:balance}
+h1 span{color:var(--cream);display:block}
 .tagline{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px}
 .who{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.linkbtn{background:none;border:none;padding:6px 2px;color:var(--brass);font-weight:700;text-decoration:underline}
+.linkbtn{background:none;border:none;padding:6px 2px;white-space:nowrap;color:var(--brass);font-weight:700;text-decoration:underline}
 .tools{display:flex;gap:8px;margin-top:10px}
 .tools input{flex:1;min-width:0;padding:10px 12px;border:2px solid var(--brass-dark);border-radius:6px;background:var(--paper);color:var(--paper-ink)}
 .tools input::placeholder{color:#7a6a50}
@@ -153,7 +153,7 @@ pre.csv{background:#1a1f1a;border:2px solid var(--brass-dark);border-radius:4px;
 <header>
   <div class="wrap">
     <div class="top">
-      <div><h1>Pint <span>Checker</span></h1><div class="tagline">Ales · Kegs · Ciders</div></div>
+      <div><h1>K&amp;D Beer Fest <span>Pint Guide</span></h1><div class="tagline">Ales · Kegs · Ciders</div></div>
       <div class="who" id="who"></div>
     </div>
     <div class="tools"><input id="q" type="search" placeholder="Search beer, brewery or number" aria-label="Search beers"></div>
@@ -163,7 +163,7 @@ pre.csv{background:#1a1f1a;border:2px solid var(--brass-dark);border-radius:4px;
 
 <main class="wrap">
   <div class="banner" id="banner" hidden>
-    <p><b>Rate the beers you try.</b> Sign in with Google, Apple or email to score each one.</p>
+    <p><b>Rate the beers you try.</b> Sign in to score each one.</p>
     <button class="btn" id="bannerBtn" type="button">Sign in</button>
   </div>
   <div class="count" id="count" aria-live="polite"></div>
@@ -198,7 +198,7 @@ pre.csv{background:#1a1f1a;border:2px solid var(--brass-dark);border-radius:4px;
 <script src="config.js"></script>
 <script>
 /* ============ FESTIVAL DATA ============ */
-var FESTIVAL = { name: "Pint Checker", currency: "£" };
+var FESTIVAL = { name: "K&D Beer Fest - Pint Guide", currency: "£" };
 var EDITION = "2025";
 /* Festival list with researched details. The organiser can replace this with a CSV or Excel upload. */
 var DEFAULT_ROWS = [
