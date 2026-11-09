@@ -89,6 +89,10 @@ label.btn.small{padding:8px 12px;font-size:13px;position:relative;display:inline
 label.btn.small input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}
 label.btn.small:focus-within{outline:3px solid var(--ember);outline-offset:2px}
 .abv{font-variant-numeric:tabular-nums;font-weight:800;background:var(--brass);color:#2a1a10;border-radius:4px;padding:3px 9px;font-size:15px;white-space:nowrap;box-shadow:inset 0 -2px 0 var(--brass-dark)}
+.prices{grid-column:1/-1;display:flex;gap:6px;margin-top:8px}
+.prices .pc{flex:1;display:flex;flex-direction:column;align-items:center;padding:4px 2px;border:1.5px solid var(--brass-dark);border-radius:4px;background:rgba(0,0,0,.28)}
+.prices small{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.prices b{font-size:14px;color:var(--brass)}
 .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:6px;align-items:center}
 .tag{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:var(--stripe);color:#fff}
 .size .szp{display:block;font-size:13px;font-weight:600;opacity:.8;margin-top:2px}
@@ -346,11 +350,15 @@ function priceLine(b){
   var o=[]; if(b.pThird) o.push("Third "+pf(b.pThird)); if(b.pHalf) o.push("Half "+pf(b.pHalf)); if(b.price) o.push("Pint "+pf(b.price));
   return o.join(" · ");
 }
+function priceRow(b){
+  var cells=[["Third",b.pThird],["Half",b.pHalf],["Pint",b.price]].filter(function(c){return c[1]});
+  if(!cells.length) return null;
+  return h("span",{class:"prices"},cells.map(function(c){return h("span",{class:"pc"},[h("small",{text:c[0]}),h("b",{text:pf(c[1])})])}));
+}
 function card(b){
   var st=statsFor(b.id), my=mine[b.id], open=openId===b.id;
   var meta=[h("span",{class:"tag",text:b.cat+(b.num?" "+b.num:"")})];
   if(b.type) meta.push(h("span",{class:"tag",text:b.type}));
-  if(b.price) meta.push(h("span",{class:"tag price",text:"Pint "+FESTIVAL.currency+b.price.toFixed(2)}));
   meta.push(st.n?h("span",{class:"avg",text:"★ "+st.avg.toFixed(1)+"/10 ("+st.n+")"}):h("span",{class:"avg",text:"Not rated yet"}));
   if(my&&typeof my.score==="number") meta.push(h("span",{class:"mine",text:"Your score: "+my.score}));
   var head=h("button",{class:"head",type:"button","aria-expanded":String(open),on:{click:function(){openId=open?null:b.id;renderList();if(!open){var el=document.getElementById("c-"+b.id);if(el)el.scrollIntoView({block:"nearest"})}}}},[
@@ -358,6 +366,7 @@ function card(b){
     h("span",{class:"name",text:b.name}),
     b.abv?h("span",{class:"abv",text:b.abv.toFixed(1)+"%"}):h("span"),
     h("span",{class:"brew"},[logoEl(b,"sm"),h("span",{text:b.brewery+(b.place?" · "+b.place:"")})]),
+    priceRow(b),
     h("span",{class:"meta"},meta)
   ]);
   var c=h("article",{class:"card",id:"c-"+b.id,"data-cat":b.cat.toLowerCase()},[head]);
