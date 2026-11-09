@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pint Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: single column mobile app dressed as a 1990s pub. Patterned carpet backdrop, mahogany and brass panels, pump-clip stripes by dispense type. */
+:root{
+  --carpet:#4a0f1a; --carpet-dark:#2f0911; --green:#12301f;
+  --wood:#2b1810; --wood2:#3b2315; --brass:#c9a24a; --brass-dark:#8a6a24;
+  --cream:#f1e6c8; --ink:#f1e6c8; --muted:#c9b68e; --ember:#f0a02a;
+  --paper:#f4ead0; --paper-ink:#2a1a10; --good:#9fd89f; --warn:#f4a860;
+  --display:'Abril Fatface','Georgia',serif;
+  --body:'Alegreya Sans','Trebuchet MS',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--body);font-size:17px;line-height:1.4;color:var(--ink);-webkit-text-size-adjust:100%;
+  background-color:var(--carpet);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(201,162,74,.55) 0 3px, transparent 4px),
+    linear-gradient(135deg, var(--green) 25%, transparent 25%, transparent 75%, var(--green) 75%),
+    linear-gradient(45deg, var(--carpet-dark) 25%, transparent 25%, transparent 75%, var(--carpet-dark) 75%);
+  background-size:36px 36px,36px 36px,36px 36px;
+  background-position:18px 18px,0 0,18px 18px;
+}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--ember);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+header{position:sticky;top:0;z-index:10;background:linear-gradient(var(--wood2),var(--wood));border-bottom:4px double var(--brass);padding:10px 0 10px;box-shadow:0 6px 14px rgba(0,0,0,.5)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1;margin:0;color:var(--brass);letter-spacing:.01em;text-shadow:0 2px 0 #000,0 0 14px rgba(201,162,74,.35);text-wrap:balance}
+h1 span{color:var(--cream)}
+.tagline{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.who{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.linkbtn{background:none;border:none;padding:6px 2px;color:var(--brass);font-weight:700;text-decoration:underline}
+.tools{display:flex;gap:8px;margin-top:10px}
+.tools input{flex:1;min-width:0;padding:10px 12px;border:2px solid var(--brass-dark);border-radius:6px;background:var(--paper);color:var(--paper-ink)}
+.tools input::placeholder{color:#7a6a50}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:6px 16px;border-radius:4px;border:2px solid var(--brass-dark);background:linear-gradient(#4a2e1c,#2f1c11);font-size:15px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--cream)}
+.chip[aria-pressed="true"]{background:linear-gradient(#e2bf6a,var(--brass));border-color:#f0d58a;color:#2a1a10;box-shadow:0 0 10px rgba(240,200,100,.5)}
+
+.count{display:inline-block;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--cream);background:#1a1f1a;border:3px solid var(--wood2);outline:2px solid var(--brass-dark);padding:6px 12px;margin:16px 0 12px;font-weight:700;box-shadow:inset 0 0 12px #000}
+.banner{background:var(--paper);color:var(--paper-ink);border:3px solid var(--brass);border-radius:6px;padding:12px 14px;margin:16px 0 0;display:flex;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.banner p{margin:0;font-size:16px}
+.btn{background:linear-gradient(#e2bf6a,var(--brass));color:#2a1a10;border:2px solid #f0d58a;border-bottom-color:var(--brass-dark);border-radius:6px;padding:11px 16px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;font-size:15px;box-shadow:0 3px 0 var(--brass-dark)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--brass-dark)}
+.btn.alt{background:transparent;color:var(--brass);border:2px solid var(--brass);box-shadow:none}
+.list{display:flex;flex-direction:column;gap:14px;padding-bottom:70px}
+
+.card{--stripe:#b02a2a;background:linear-gradient(var(--wood2),var(--wood));border:2px solid var(--brass-dark);border-left:12px solid var(--stripe);border-radius:6px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.55),inset 0 0 0 2px rgba(201,162,74,.18)}
+.card[data-cat="keg"]{--stripe:#2f6fb0}
+.card[data-cat="cider"]{--stripe:#d6a21c}
+.card[data-cat="cask"]{--stripe:#b02a2a}
+.card>button.head{width:100%;text-align:left;background:none;border:none;padding:14px;display:grid;grid-template-columns:68px 1fr auto;gap:4px 12px;align-items:start}
+.card .name{font-family:var(--display);font-weight:400;font-size:23px;line-height:1.1;color:var(--cream);text-wrap:balance}
+.card .brew{grid-column:2/4;display:flex;align-items:center;gap:8px;font-size:16px;color:var(--muted);font-style:italic}
+.card .name{grid-column:2}
+.thumb{grid-row:1/3;grid-column:1;width:68px;height:68px;border-radius:4px;border:2px solid var(--brass-dark);object-fit:cover;background:#1a1f1a;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.bimg.ph svg{width:80%;height:80%}
+.logo{flex:none;border-radius:50%;object-fit:contain;background:var(--paper);border:2px solid var(--brass)}
+.logo.sm{width:24px;height:24px}
+.logo.lg{width:56px;height:56px}
+.logo.ph{display:inline-flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#e2bf6a,var(--brass-dark));color:#2a1a10;font-family:var(--display);font-style:normal;font-weight:400}
+.logo.ph.sm{font-size:11px}
+.logo.ph.lg{font-size:21px}
+.hero{display:block;width:100%;aspect-ratio:4/3;max-height:240px;margin:12px 0 0;border:3px solid var(--brass-dark);border-radius:4px;object-fit:cover;background:#1a1f1a}
+.hero.ph{display:flex;align-items:center;justify-content:center}
+.hero.ph svg{height:70%}
+.brewbox{display:flex;gap:10px;align-items:flex-start}
+.brewbox b{display:block;color:var(--cream)}
+.orgbox{margin-top:14px;padding:10px;border:2px dashed var(--brass-dark);border-radius:4px}
+.orglab{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin-bottom:8px}
+.orgbtns{display:flex;gap:8px;flex-wrap:wrap}
+label.btn.small{padding:8px 12px;font-size:13px;position:relative;display:inline-block}
+label.btn.small input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}
+label.btn.small:focus-within{outline:3px solid var(--ember);outline-offset:2px}
+.abv{font-variant-numeric:tabular-nums;font-weight:800;background:var(--brass);color:#2a1a10;border-radius:4px;padding:3px 9px;font-size:15px;white-space:nowrap;box-shadow:inset 0 -2px 0 var(--brass-dark)}
+.meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:6px;align-items:center}
+.tag{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:var(--stripe);color:#fff}
+.tag.price{background:transparent;border:1.5px solid var(--brass);color:var(--brass)}
+.avg{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mine{font-size:13px;font-weight:800;color:var(--good)}
+.body{padding:0 14px 16px;border-top:2px dotted var(--brass-dark)}
+.body dl{margin:12px 0 0;display:grid;grid-template-columns:92px 1fr;gap:8px 10px;font-size:16px}
+.body dt{color:var(--brass);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.1em;padding-top:3px}
+.body dd{margin:0}
+.rate{margin-top:16px;padding:14px;background:#1a1f1a;border:3px solid var(--wood2);outline:2px solid var(--brass-dark);border-radius:2px;box-shadow:inset 0 0 14px #000}
+
+.glassrow{display:flex;align-items:center;gap:14px}
+.glassbox{flex:none;width:84px}
+.glassbox svg{display:block;width:100%;height:auto;filter:drop-shadow(0 3px 4px #000)}
+.glassright{flex:1;min-width:0}
+.glassnum{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;color:var(--ember)}
+.glassnum b{font-family:var(--display);font-weight:400;font-size:44px;line-height:1}
+.glassnum small{color:var(--muted);font-size:13px}
+.glassrange{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;margin:0;touch-action:pan-y}
+.glassrange::-webkit-slider-runnable-track{height:12px;border-radius:6px;border:2px solid #55554a;background:linear-gradient(90deg,var(--ember) var(--pct,0%),#26261f var(--pct,0%))}
+.glassrange::-moz-range-track{height:12px;border-radius:6px;border:2px solid #55554a;background:linear-gradient(90deg,var(--ember) var(--pct,0%),#26261f var(--pct,0%))}
+.glassrange::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;margin-top:-11px;border-radius:50%;background:linear-gradient(#ffe9a8,var(--brass));border:3px solid #2a1a10;box-shadow:0 2px 0 #000}
+.glassrange::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:linear-gradient(#ffe9a8,var(--brass));border:3px solid #2a1a10}
+.submit{width:100%;margin-top:4px}
+.submit:disabled{opacity:.45}
+.authbtns{display:grid;gap:10px;margin:14px 0}
+.authbtn{width:100%;padding:13px 16px}
+#emailForm{margin:6px 0 10px}
+.rate h3{font-family:var(--display);font-weight:400;margin:0 0 12px;font-size:20px;color:var(--brass);letter-spacing:.02em}
+.row{margin-bottom:14px}
+.row label,.row .lab{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:800;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.row .lab small{font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0;font-size:13px;text-align:right}
+.stars{display:flex;gap:6px}
+.star,.num,.size{background:linear-gradient(#3a3a34,#1f1f1b);border:2px solid #55554a;color:#8c8c7c;border-radius:6px;box-shadow:0 3px 0 #0a0a08}
+.star{flex:1;max-width:58px;height:46px;font-size:21px;line-height:1}
+.nums{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.num{height:44px;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
+.sizes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.size{padding:11px 4px;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:#c0c0ae}
+.star[aria-pressed="true"],.num[aria-pressed="true"],.size[aria-pressed="true"]{background:linear-gradient(#ffd877,var(--ember));border-color:#ffe9a8;color:#2a1a10;box-shadow:0 0 12px rgba(255,190,70,.7),0 1px 0 #7a4a08;transform:translateY(2px)}
+.status{font-size:14px;color:var(--muted);min-height:20px}
+.signin-prompt{background:var(--paper);color:var(--paper-ink);border-radius:4px;padding:12px;font-size:16px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.votes{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:6px}
+
+.scrim{position:fixed;inset:0;background:rgba(15,5,5,.75);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.scrim.open{display:flex}
+.sheet{background:linear-gradient(var(--wood2),var(--wood));border:3px double var(--brass);border-bottom:none;width:100%;max-width:520px;border-radius:14px 14px 0 0;padding:20px 18px 26px;max-height:92%;overflow-y:auto}
+.sheet h2{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 4px;color:var(--brass)}
+.sheet p.sub{margin:0 0 14px;color:var(--muted);font-size:16px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:800;margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em;color:var(--brass)}
+.field input[type=text],.field input[type=email]{width:100%;padding:12px;border:2px solid var(--brass-dark);border-radius:6px;background:var(--paper);color:var(--paper-ink)}
+.field input[type=file]{width:100%;color:var(--cream)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px;margin:6px 0 14px}
+.check input{width:24px;height:24px;flex:none;margin-top:1px;accent-color:var(--brass)}
+.err{color:var(--warn);font-size:15px;min-height:20px;margin-bottom:8px}
+.sheet .btns{display:flex;gap:8px}
+.sheet .btns .btn{flex:1}
+pre.csv{background:#1a1f1a;border:2px solid var(--brass-dark);border-radius:4px;padding:10px;font-size:12px;overflow:auto;max-height:220px;white-space:pre;color:var(--cream)}
+.empty{text-align:center;color:var(--cream);padding:40px 0;background:#1a1f1a;border:3px solid var(--wood2);outline:2px solid var(--brass-dark)}
+@media (prefers-reduced-motion:no-preference){.star,.num,.size,.btn{transition:transform .08s,box-shadow .12s}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div><h1>Pint <span>Checker</span></h1><div class="tagline">Ales · Kegs · Ciders</div></div>
+      <div class="who" id="who"></div>
+    </div>
+    <div class="tools"><input id="q" type="search" placeholder="Search beer, brewery or number" aria-label="Search beers"></div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by style"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="banner" id="banner" hidden>
+    <p><b>Rate the beers you try.</b> Sign in with Google, Apple or email to score each one.</p>
+    <button class="btn" id="bannerBtn" type="button">Sign in</button>
+  </div>
+  <div class="count" id="count" aria-live="polite"></div>
+  <div class="list" id="list"></div>
+</main>
+
+<div class="scrim" id="signScrim" role="dialog" aria-modal="true" aria-labelledby="signTitle">
+  <div class="sheet">
+    <h2 id="signTitle">Sign in to rate</h2>
+    <div id="stepAuth">
+      <p class="sub">Sign in so your ratings stay with you.</p>
+      <div class="authbtns" id="authBtns"></div>
+      <form id="emailForm" novalidate hidden>
+        <div class="field"><label for="aEmail">Email address</label><input id="aEmail" type="email" autocomplete="email" inputmode="email"></div>
+        <button class="btn" type="submit" style="width:100%">Email me a sign-in link</button>
+      </form>
+      <div class="err" id="authErr" role="alert"></div>
+      <div class="btns"><button class="btn alt" type="button" id="signCancel">Not now</button></div>
+    </div>
+    <form id="signForm" novalidate hidden>
+      <p class="sub" id="profSub">Tell us who you are.</p>
+      <div class="field"><label for="fName">Your name</label><input id="fName" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="fEmail">Email address</label><input id="fEmail" type="email" autocomplete="email" inputmode="email" required></div>
+      <label class="check"><input id="fConsent" type="checkbox"><span>Yes, the festival organisers can email me about future events and offers. I can unsubscribe at any time.</span></label>
+      <div class="err" id="signErr" role="alert"></div>
+      <div class="btns"><button class="btn alt" type="button" id="signOutBtn">Cancel</button><button class="btn" type="submit">Start rating</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+/* ============ FESTIVAL DATA ============ */
+var FESTIVAL = { name: "Pint Checker", currency: "£" };
+var EDITION = "2025";
+/* Festival list with researched details. The organiser can replace this with a CSV or Excel upload. */
+var DEFAULT_ROWS = [
+ {"cat": "Cask", "num": 1, "name": "Tempo", "brewery": "Siren", "type": "Pale Ale", "abv": 3.8, "place": "Finchampstead, Berkshire", "about": "Modern craft brewery founded in 2013, known for fruit-forward pales and IPAs, including its best-selling Lumina.", "notes": "Brewed specially for cask.", "taste": "Bright and easy drinking. Sweet tropical fruit, sticky peach and citrus zest, finishing crisp with gentle bitterness.", "pairing": "Fish and chips, grilled chicken, summer salads."},
+ {"cat": "Cask", "num": 2, "name": "Nectaron", "brewery": "Oakham", "type": "", "abv": 0, "place": "Peterborough, Cambridgeshire", "about": "Started in Rutland in 1993 and based in Peterborough since 1998. Says it was the first UK brewery to brew commercially with Citra hops.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 3, "name": "Oracle", "brewery": "Salopian", "type": "Golden Ale", "abv": 4.0, "place": "Hadnall, near Shrewsbury, Shropshire", "about": "Shropshire brewer that moved to a bigger site at Hadnall in 2014. Cask is its heart, with keg, cans and bottles added since.", "notes": "Award-winning: International Beer Challenge best ale and SIBA bottled golden champion.", "taste": "Crisp, sunflower-gold ale with a striking hop profile. Floral and grapefruit, dry and refreshing with a long citrus finish.", "pairing": "Grilled fish, chicken salad, mild cheeses."},
+ {"cat": "Cask", "num": 4, "name": "Littlemore Citra", "brewery": "Ashover", "type": "Session Pale Ale", "abv": 4.1, "place": "Clay Cross, Derbyshire", "about": "Derbyshire brewery that began in 2007 in an old stable block.", "notes": "Multi-award-winning, single-hop Citra session beer.", "taste": "Crisp and sharply citrus, lemon and grapefruit, with a bitter finish.", "pairing": "Spicy chicken wings, fish tacos."},
+ {"cat": "Cask", "num": 5, "name": "Deception", "brewery": "Abbeydale", "type": "Pale Ale", "abv": 4.1, "place": "Sheffield, South Yorkshire", "about": "Sheffield brewery that has made Deception since 2008 and has passed 25 years of brewing.", "notes": "A New Zealand-style pale ale built on Nelson Sauvin hops. Brewed since 2008.", "taste": "Light, crisp and citrusy with a grapefruit bite.", "pairing": "Seafood, sushi, goat's cheese."},
+ {"cat": "Cask", "num": 6, "name": "Spacelord", "brewery": "Green Duck", "type": "", "abv": 0, "place": "Stourbridge, West Midlands", "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 7, "name": "A King of Magic", "brewery": "Castle Rock", "type": "", "abv": 0, "place": "Nottingham", "about": "Independent Nottingham brewery, brewing since 1997, with its own small estate of pubs.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 8, "name": "Art of the Van", "brewery": "Fixed Wheel", "type": "", "abv": 0, "place": "Blackheath, Black Country, West Midlands", "about": "Set up in 2014 by cycling and brewing enthusiasts Scott Povey and Sharon Bryant, hence the bike-themed names. Brews on an eight-barrel plant and began canning in 2021.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 9, "name": "Ghost Ship", "brewery": "Adnams", "type": "Pale Ale", "abv": 4.5, "place": "Southwold, Suffolk", "about": "Suffolk coastal brewer based in Southwold. Ghost Ship is its best-selling beer.", "notes": "Built around Citra hops with rye crystal malt.", "taste": "Lemon and lime, elderflower aroma, biscuity malt and a famous hoppy finish.", "pairing": "Ploughman's lunch, grilled meat, spicy food, pizza."},
+ {"cat": "Cask", "num": 10, "name": "How Soon is Now", "brewery": "Salopian", "type": "", "abv": 0, "place": "Hadnall, near Shrewsbury, Shropshire", "about": "Shropshire brewer that moved to a bigger site at Hadnall in 2014. Cask is its heart, with keg, cans and bottles added since.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 11, "name": "Sowing the Seed", "brewery": "Twisted Barrel", "type": "", "abv": 0, "place": "Coventry, West Midlands", "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 12, "name": "American Pale Ale", "brewery": "Dark Star", "type": "Pale Ale", "abv": 4.7, "place": "Chiswick, London", "about": "Dark Star beers are listed by CAMRA as brewed by Fuller's in Chiswick. American Pale Ale is one of its classic cask beers.", "notes": "Cascade, Chinook and Centennial hops on Maris Otter malt.", "taste": "Crisp and citrusy with a signature dry finish.", "pairing": "Burgers, buffalo wings, tacos."},
+ {"cat": "Cask", "num": 13, "name": "Fallen Angel", "brewery": "Church End", "type": "Premium Pale Ale", "abv": 5.0, "place": "Nuneaton, Warwickshire", "about": "Started in 1994 in an old coffin shop in Shustoke and moved to its current site in 2001. Known for one-off specials and old-recipe beers.", "notes": "Voted Best Strong Bitter at the Great British Beer Festival.", "taste": "", "pairing": "Roast chicken, mature cheddar."},
+ {"cat": "Cask", "num": 14, "name": "Silver King", "brewery": "Ossett", "type": "American Pale", "abv": 4.3, "place": "Ossett, West Yorkshire", "about": "Founded in 1998 behind the Brewers Pride pub in Ossett. Silver King and Excelsius were the original beers.", "notes": "Lager malt and Cascade hops. An award winner since 2001.", "taste": "Citrus aroma, clean and crisp, with a drier bitter finish.", "pairing": "Fish and chips, chicken, light curries."},
+ {"cat": "Cask", "num": 15, "name": "Sherbert Lemon", "brewery": "Riverhead", "type": "", "abv": 0, "place": "Marsden, near Huddersfield, West Yorkshire", "about": "Brewpub on the River Colne, brewing since 1995 and now part of the Ossett group. Its beer names are tied to local reservoirs.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 16, "name": "Blonde", "brewery": "Green Duck", "type": "", "abv": 0, "place": "Stourbridge, West Midlands", "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 17, "name": "Rat to the Future", "brewery": "Rat Brewery", "type": "", "abv": 0, "place": "Huddersfield, West Yorkshire", "about": "Brewery at the Rat & Ratchet pub, restarted in 2011 and part of the Ossett group. Known for rat-themed beer names.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 18, "name": "Ember", "brewery": "Attic", "type": "", "abv": 0, "place": "Stirchley, Birmingham", "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cask", "num": 19, "name": "Vicar's Ruin", "brewery": "Church End", "type": "Best Bitter", "abv": 4.4, "place": "Nuneaton, Warwickshire", "about": "Started in 1994 in an old coffin shop in Shustoke and moved to its current site in 2001. Known for one-off specials and old-recipe beers.", "notes": "Straw-coloured best bitter.", "taste": "Hoppy and bitter at first, softening to a delicate malt finish.", "pairing": "Pub pies, sausages, cheddar."},
+ {"cat": "Cask", "num": 20, "name": "Baltic Porter Coffee", "brewery": "Titanic x Castle Rock", "type": "Coffee Baltic Porter", "abv": 4.8, "place": "Stoke-on-Trent and Nottingham", "about": "A collaboration. Titanic was founded in Burslem, Stoke-on-Trent in 1985 by brothers Keith and Dave Bott and is named after Captain Edward Smith, who came from Stoke. Castle Rock has brewed in Nottingham since 1997.", "notes": "Collaboration brewed with Honduran coffee from Chartley Coffee, added in the mash.", "taste": "Soft chocolate and toasted malt with aromatic coffee and no harsh bitterness. A lighter, sessionable Baltic porter.", "pairing": "Chocolate dessert, smoked sausage, blue cheese."},
+ {"cat": "Cask", "num": 21, "name": "Blackheath Stour", "brewery": "Fixed Wheel", "type": "Stout", "abv": 5.0, "place": "Blackheath, Black Country, West Midlands", "about": "Set up in 2014 by cycling and brewing enthusiasts Scott Povey and Sharon Bryant, hence the bike-themed names. Brews on an eight-barrel plant and began canning in 2021.", "notes": "Fixed Wheel's first beer, named after its Black Country home. Champion Winter Beer of Britain 2020. New Zealand Pacific Gem and English Bramling Cross hops.", "taste": "Full-bodied and fruity, with an oaky bitterness and a creamy dark-fruit finish.", "pairing": "Steak pie, chocolate brownie, oysters."},
+ {"cat": "Keg", "num": 1, "name": "Lumina", "brewery": "Siren", "type": "Session IPA", "abv": 4.2, "place": "Finchampstead, Berkshire", "about": "Modern craft brewery founded in 2013, known for fruit-forward pales and IPAs, including its best-selling Lumina.", "notes": "Siren's best seller since 2020. Vegan and gluten free.", "taste": "Juicy tropical fruit with a pillowy soft mouthfeel and a light haze.", "pairing": "Fish tacos, falafel, Thai food."},
+ {"cat": "Keg", "num": 2, "name": "It must be love", "brewery": "Twisted Barrel", "type": "", "abv": 0, "place": "Coventry, West Midlands", "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Keg", "num": 3, "name": "Signals", "brewery": "Attic", "type": "IPA", "abv": 5.6, "place": "Stirchley, Birmingham", "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley.", "notes": "Attic's core IPA. Vegan.", "taste": "Citrus and stone fruit, leaning towards grapefruit and apricot.", "pairing": "Burgers, spicy food."},
+ {"cat": "Keg", "num": 4, "name": "HBD", "brewery": "Attic", "type": "", "abv": 0, "place": "Stirchley, Birmingham", "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley.", "notes": "", "taste": "", "pairing": ""},
+ {"cat": "Cider", "num": 1, "name": "Pina Colada", "brewery": "Lilley's", "type": "Fruit Cider", "abv": 3.4, "place": "Somerset", "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.", "notes": "Lightly sparkling.", "taste": "Pineapple, rum and coconut blended with crisp Somerset cider. Smooth, sweet and summery.", "pairing": "Jerk chicken, grilled prawns."},
+ {"cat": "Cider", "num": 2, "name": "Rhubarb", "brewery": "Lilley's", "type": "Fruit Cider", "abv": 4.0, "place": "Somerset", "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.", "notes": "Lightly sparkling.", "taste": "Sweet rhubarb flavour with a tart edge over a crisp apple base.", "pairing": "Roast pork, mild cheeses."},
+ {"cat": "Cider", "num": 3, "name": "Sunset", "brewery": "Lilley's", "type": "Medium Cider", "abv": 6.0, "place": "Somerset", "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.", "notes": "Rustic, medium sweet.", "taste": "Full-bodied and fruity, bursting with juicy apple.", "pairing": "Pork pie, barbecue pork, cheddar."},
+ {"cat": "Cider", "num": 4, "name": "Bee Sting", "brewery": "Lilley's", "type": "Perry", "abv": 6.8, "place": "Somerset", "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.", "notes": "Award-winning perry. Gold, three-star Great Taste Award in 2018.", "taste": "Sparkling, medium-sweet perry with a subtle pear aroma.", "pairing": "Blue cheese, duck, fruit desserts."}
+];
+var ALIAS={category:"cat",format:"cat",dispense:"cat",section:"cat",number:"num",no:"num",num:"num",pump:"num",beer:"name",name:"name",beername:"name",brewery:"brewery",style:"type",type:"type",abv:"abv",alcohol:"abv",location:"place",brewedin:"place",town:"place",place:"place",breweryinfo:"about",aboutbrewery:"about",about:"about",description:"about",taste:"taste",tastingnotes:"taste",flavour:"taste",flavor:"taste",pairing:"pairing",foodpairing:"pairing",pairswith:"pairing",price:"price",pintprice:"price",notes:"notes",details:"notes"};
+function slug(x){return String(x).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+function mkBeer(o,edition){
+  var cat=String(o.cat||"Beer").replace(/\s+/g," ").trim(); cat=cat.charAt(0).toUpperCase()+cat.slice(1).toLowerCase();
+  var num=parseInt(o.num,10)||0;
+  return {id:slug(edition)+"-"+slug(cat)+"-"+(num||slug(o.name)),cat:cat,num:num,name:String(o.name).trim(),brewery:o.brewery||"",type:o.type||"",
+    abv:parseFloat(String(o.abv||"").replace("%",""))||0,place:o.place||"",about:o.about||"",notes:o.notes||"",taste:o.taste||"",pairing:o.pairing||"",
+    price:parseFloat(String(o.price||"").replace(/[^0-9.]/g,""))||0};
+}
+function dedupe(list){var seen={};return list.map(function(b,i){if(seen[b.id]){b.id=b.id+"-"+i}seen[b.id]=1;return b})}
+var BEERS = dedupe(DEFAULT_ROWS.map(function(r){return mkBeer(r,EDITION)}));
+var SIZES = [{k:"third",label:"Third"},{k:"half",label:"Half"},{k:"full",label:"Full pint"}];
+
+/* ============ STATE ============ */
+var authUser = null;         // Supabase auth user (live mode)
+var STATS = {};              // beerId -> {n,avg,third,half,full} from beer_stats
+var profile = null;           // {name,email,consent}
+var msgs = {};               // last save message per beer
+var drafts = {};             // unsubmitted rating edits
+var mine = {};                // beerId -> {price,taste,score,size}
+var filterType = "All", query = "", openId = null;
+var $ = function(s){return document.querySelector(s)};
+
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+function h(tag, attrs, kids){
+  var el=document.createElement(tag);
+  if(attrs) for(var k in attrs){
+    if(k==="text") el.textContent=attrs[k];
+    else if(k==="on") for(var ev in attrs.on) el.addEventListener(ev,attrs.on[ev]);
+    else if(attrs[k]===false||attrs[k]==null) continue;
+    else el.setAttribute(k,attrs[k]===true?"":attrs[k]);
+  }
+  (kids||[]).forEach(function(c){ if(c!=null) el.appendChild(typeof c==="string"?document.createTextNode(c):c); });
+  return el;
+}
+
+/* ============ STATS ============ */
+function statsFor(id){
+  if(LIVE){
+    var t=STATS[id]; if(!t) return {n:0,avg:null,sizes:{third:0,half:0,full:0}};
+    return {n:t.n,avg:t.n?t.avg:null,sizes:{third:t.third,half:t.half,full:t.full}};
+  }
+  var r=mine[id], sizes={third:0,half:0,full:0}, n=0, sum=0;
+  if(r){ if(typeof r.score==="number"){n=1;sum=r.score} if(r.size&&sizes[r.size]!==undefined) sizes[r.size]++; }
+  return {n:n,avg:n?sum:null,sizes:sizes};
+}
+
+/* ============ RENDER ============ */
+function types(){
+  var t=[]; BEERS.forEach(function(b){ if(t.indexOf(b.cat)<0) t.push(b.cat); }); return ["All"].concat(t);
+}
+function renderChips(){
+  var box=$("#chips"); box.textContent="";
+  types().forEach(function(t){
+    box.appendChild(h("button",{class:"chip",type:"button","aria-pressed":String(t===filterType),text:t,on:{click:function(){filterType=t;renderChips();renderList()}}}));
+  });
+}
+function renderWho(){
+  var w=$("#who"); w.textContent="";
+  if(profile){
+    w.appendChild(h("span",{text:profile.name.split(" ")[0]}));
+    w.appendChild(h("button",{class:"linkbtn",type:"button",text:"Sign out",on:{click:signOut}}));
+  } else {
+    w.appendChild(h("button",{class:"linkbtn",type:"button",text:"Sign in",on:{click:openSign}}));
+  }
+  $("#banner").hidden=!!profile;
+}
+function matches(b){
+  if(filterType!=="All" && b.cat!==filterType) return false;
+  if(!query) return true;
+  var s=(b.name+" "+b.brewery+" "+b.cat+" "+b.type+" "+b.place).toLowerCase();
+  return s.indexOf(query)>-1;
+}
+function renderList(){
+  var list=$("#list"); list.textContent="";
+  var shown=BEERS.filter(matches);
+  var rated=Object.keys(mine).filter(function(k){return mine[k]&&typeof mine[k].score==="number"}).length;
+  $("#count").textContent=shown.length+" of "+BEERS.length+" beers"+(profile?" · you have rated "+rated:"");
+  if(!shown.length){list.appendChild(h("div",{class:"empty",text:"No beers match. Clear the search or pick another style."}));return}
+  shown.forEach(function(b){ list.appendChild(card(b)); });
+}
+/* ============ IMAGES ============ */
+var GLASS='<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 9h30l-4 46a3 3 0 0 1-3 3H24a3 3 0 0 1-3-3z" style="fill:var(--stripe)"/><path d="M16 8h32l-.7 9H16.7z" fill="#f4ead0"/><path d="M17 9h30l-4 46a3 3 0 0 1-3 3H24a3 3 0 0 1-3-3z" fill="none" stroke="#c9a24a" stroke-width="2.5" stroke-linejoin="round"/></svg>';
+function tryImg(urls,cls,alt,ph){
+  var im=h("img",{class:cls,alt:alt,loading:"lazy"}), i=0;
+  im.onerror=function(){ i++; if(i<urls.length) im.src=urls[i]; else if(im.parentNode) im.parentNode.replaceChild(ph(),im); };
+  im.src=urls[0]; return im;
+}
+function logoEl(b,size){
+  var sl=slug(b.brewery), ini=b.brewery.split(/\s+/).filter(function(w){return /[a-z0-9]/i.test(w)&&w.toLowerCase()!=="x"}).slice(0,2).map(function(w){return w.charAt(0).toUpperCase()}).join("");
+  var ph=function(){return h("span",{class:"logo ph "+size,"aria-hidden":"true",text:ini||"?"})};
+  return tryImg(["images/logos/"+sl+".png","images/logos/"+sl+".jpg","images/logos/"+sl+".webp","images/logos/"+sl+".svg"],"logo "+size,b.brewery+" logo",ph);
+}
+function beerEl(b,cls){
+  var base="images/beers/"+slug(b.cat)+"-"+b.num;
+  var ph=function(){var el=h("span",{class:"bimg ph "+cls,"aria-hidden":"true"}); el.innerHTML=GLASS; return el};
+  return tryImg([base+".jpg",base+".png",base+".webp"],"bimg "+cls,b.name+" in the glass",ph);
+}
+function card(b){
+  var st=statsFor(b.id), my=mine[b.id], open=openId===b.id;
+  var meta=[h("span",{class:"tag",text:b.cat+(b.num?" "+b.num:"")})];
+  if(b.type) meta.push(h("span",{class:"tag",text:b.type}));
+  if(b.price) meta.push(h("span",{class:"tag price",text:FESTIVAL.currency+b.price.toFixed(2)+" / pint"}));
+  meta.push(st.n?h("span",{class:"avg",text:"★ "+st.avg.toFixed(1)+"/10 ("+st.n+")"}):h("span",{class:"avg",text:"Not rated yet"}));
+  if(my&&typeof my.score==="number") meta.push(h("span",{class:"mine",text:"Your score: "+my.score}));
+  var head=h("button",{class:"head",type:"button","aria-expanded":String(open),on:{click:function(){openId=open?null:b.id;renderList();if(!open){var el=document.getElementById("c-"+b.id);if(el)el.scrollIntoView({block:"nearest"})}}}},[
+    beerEl(b,"thumb"),
+    h("span",{class:"name",text:b.name}),
+    b.abv?h("span",{class:"abv",text:b.abv.toFixed(1)+"%"}):h("span"),
+    h("span",{class:"brew"},[logoEl(b,"sm"),h("span",{text:b.brewery+(b.place?" · "+b.place:"")})]),
+    h("span",{class:"meta"},meta)
+  ]);
+  var c=h("article",{class:"card",id:"c-"+b.id,"data-cat":b.cat.toLowerCase()},[head]);
+  if(open){
+    var rows=[];
+    var add=function(dt,dd){ if(dd){rows.push(h("dt",{text:dt}));rows.push(h("dd",{text:dd}))} };
+    rows.push(h("dt",{text:"Brewery"}));
+    rows.push(h("dd",null,[h("div",{class:"brewbox"},[logoEl(b,"lg"),h("div",null,[h("b",{text:b.brewery}),b.about?h("span",{text:b.about}):null])])]));
+    add("Brewed in",b.place);
+    add("Style",[b.type,b.abv?b.abv.toFixed(1)+"% ABV":""].filter(Boolean).join(" · "));
+    add("Details",b.notes); add("Taste",b.taste); add("Pair with",b.pairing);
+    var kids=[beerEl(b,"hero"),h("dl",null,rows)];
+    if(!(b.taste||b.notes||b.pairing)) kids.push(h("p",{class:"avg",text:"Tasting notes for this one are coming soon."}));
+    kids.push(ratePanel(b,st));
+    c.appendChild(h("div",{class:"body"},kids));
+  }
+  return c;
+}
+function stars(value,onPick,label){
+  var box=h("div",{class:"stars",role:"group","aria-label":label});
+  for(var i=1;i<=5;i++){(function(i){
+    box.appendChild(h("button",{class:"star",type:"button","aria-label":i+" of 5","aria-pressed":String(value===i),text:"★",on:{click:function(){onPick(i)}}}));
+  })(i)}
+  return box;
+}
+function ratePanel(b,st){
+  var wrap=h("div",{class:"rate"});
+  wrap.appendChild(h("h3",{text:"Your rating"}));
+  if(!profile){
+    wrap.appendChild(h("div",{class:"signin-prompt"},[h("span",{text:"Sign in to rate this beer."}),h("button",{class:"btn",type:"button",text:"Sign in",on:{click:openSign}})]));
+  } else {
+    var saved=mine[b.id]||{};
+    var r=drafts[b.id]||(drafts[b.id]=Object.assign({},saved));
+    var status=h("div",{class:"status",id:"st-"+b.id,"aria-live":"polite",text:msgs[b.id]||""});
+    var sub=h("button",{class:"btn submit",type:"button",text:saved.score!=null||saved.size||saved.price||saved.taste?"Update rating":"Submit rating"});
+    function dirty(){ msgs[b.id]=""; status.textContent=""; sub.disabled=false; }
+    function pick(field,val,group){
+      r[field]=val; dirty();
+      if(group){ Array.prototype.forEach.call(group.children,function(btn){ btn.setAttribute("aria-pressed",String(btn.getAttribute("data-v")===String(val))); }); }
+    }
+    function stars2(field,label){
+      var box=h("div",{class:"stars",role:"group","aria-label":label});
+      for(var i=1;i<=5;i++){(function(i){
+        box.appendChild(h("button",{class:"star","data-v":String(i),type:"button","aria-label":i+" of 5","aria-pressed":String(r[field]===i),text:"★",on:{click:function(){pick(field,i,box)}}}));
+      })(i)}
+      return box;
+    }
+    wrap.appendChild(h("div",{class:"row"},[
+      h("div",{class:"lab"},[h("span",{text:"Price"}),h("small",{text:"1 = rip-off · 5 = bargain"+(b.price?" at "+FESTIVAL.currency+b.price.toFixed(2):"")})]),
+      stars2("price","Price rating")
+    ]));
+    wrap.appendChild(h("div",{class:"row"},[
+      h("div",{class:"lab"},[h("span",{text:"Taste"}),h("small",{text:"1 = not for me · 5 = brilliant"})]),
+      stars2("taste","Taste rating")
+    ]));
+    /* glass slider */
+    var cid="gc-"+b.id.replace(/[^a-z0-9]/gi,"");
+    var glass=h("div",{class:"glassbox"});
+    var big=h("div",{class:"glassnum"});
+    var range=h("input",{type:"range",class:"glassrange",min:"0",max:"10",step:"1","aria-label":"Proper Pint Score out of 10"});
+    range.value=typeof r.score==="number"?String(r.score):"0";
+    function paint(){
+      var v=typeof r.score==="number"?r.score:0, H=118*v/10, y=126-H;
+      glass.innerHTML='<svg viewBox="0 0 100 132" aria-hidden="true"><defs><clipPath id="'+cid+'"><path d="M20 8 L80 8 L73 121 Q72 126 67 126 L33 126 Q28 126 27 121 Z"/></clipPath></defs>'
+        +'<g clip-path="url(#'+cid+')"><rect x="0" y="8" width="100" height="118" fill="#120d08"/>'
+        +(v>0?'<rect x="0" y="'+y+'" width="100" height="'+H+'" fill="#e0912a"/>'
+        +'<rect x="0" y="'+y+'" width="100" height="'+Math.min(9,H)+'" fill="#f7efd6"/>':'')
+        +'</g><path d="M20 8 L80 8 L73 121 Q72 126 67 126 L33 126 Q28 126 27 121 Z" fill="none" stroke="#d9d2bc" stroke-width="3" stroke-linejoin="round"/></svg>';
+      big.innerHTML=typeof r.score==="number"?'<b>'+v+'</b><small>/10</small>':'<b>–</b><small>slide to score</small>';
+      range.style.setProperty("--pct",(v*10)+"%");
+    }
+    range.addEventListener("input",function(){ r.score=parseInt(range.value,10); dirty(); paint(); });
+    paint();
+    wrap.appendChild(h("div",{class:"row"},[
+      h("div",{class:"lab"},[h("span",{text:"Proper Pint Score"}),h("small",{text:"empty glass 0 → full glass 10"})]),
+      h("div",{class:"glassrow"},[glass,h("div",{class:"glassright"},[big,range])])
+    ]));
+    var sz=h("div",{class:"sizes",role:"group","aria-label":"Pint size recommendation"});
+    SIZES.forEach(function(sx){ sz.appendChild(h("button",{class:"size","data-v":sx.k,type:"button","aria-pressed":String(r.size===sx.k),text:sx.label,on:{click:function(){pick("size",sx.k,sz)}}})); });
+    wrap.appendChild(h("div",{class:"row"},[h("div",{class:"lab"},[h("span",{text:"Best served as a"}),h("small",{text:"what size would you order?"})]),sz]));
+    sub.disabled=true;
+    sub.addEventListener("click",function(){
+      mine[b.id]=Object.assign({},r); dirtyIds[b.id]=1; sub.disabled=true; status.textContent="Saving…";
+      queueSave(function(ok){ var m=ok?"Cheers! Rating submitted.":(LIVE?"Could not save. Check your signal and press Update rating.":"Submitted (saved on this phone only)"); msgs[b.id]=m; var s2=document.getElementById("st-"+b.id); if(s2) s2.textContent=ok?"Cheers! Rating submitted.":(LIVE?"Could not save. Check your signal and press Update rating.":"Submitted (saved on this phone only)"); if(!ok&&LIVE) sub.disabled=false; });
+      renderList();
+    });
+    wrap.appendChild(sub);
+    wrap.appendChild(status);
+  }
+  if(st.n || st.sizes.third+st.sizes.half+st.sizes.full){
+    wrap.appendChild(h("div",{class:"votes",text:"Size votes: "+st.sizes.third+" third · "+st.sizes.half+" half · "+st.sizes.full+" full pint"}));
+  }
+  return wrap;
+}
+
+/* ============ BACKEND (Supabase) ============ */
+var CFG = window.PINT || {};
+var LIVE = !!(CFG.supabaseUrl && CFG.supabaseAnonKey && !/YOUR_/.test(CFG.supabaseUrl) && window.supabase);
+var sb = LIVE ? supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey) : null;
+var dirtyIds = {};
+
+var saveTimer=null, saving=false, pending=[];
+function queueSave(cb){ pending.push(cb); clearTimeout(saveTimer); saveTimer=setTimeout(flush,300); }
+async function flush(){
+  if(saving){saveTimer=setTimeout(flush,400);return}
+  saving=true; var cbs=pending; pending=[];
+  var ok=false;
+  if(LIVE){
+    if(authUser){
+      var ids=Object.keys(dirtyIds); dirtyIds={};
+      var rows=ids.map(function(id){var r=mine[id]||{};return {user_id:authUser.id,beer_id:id,price:r.price||null,taste:r.taste||null,score:typeof r.score==="number"?r.score:null,size:r.size||null,updated_at:new Date().toISOString()}});
+      try{
+        if(rows.length){ var res=await sb.from("ratings").upsert(rows,{onConflict:"user_id,beer_id"}); ok=!res.error; if(res.error) ids.forEach(function(id){dirtyIds[id]=1}); }
+        else ok=true;
+      }catch(e){ ok=false; ids.forEach(function(id){dirtyIds[id]=1}); }
+      if(ok) loadStats();
+    }
+  } else { lsSet("pc_mine",mine); }
+  saving=false; cbs.forEach(function(f){f(ok)});
+}
+async function loadStats(){
+  if(!LIVE) return;
+  try{
+    var res=await sb.from("beer_stats").select("*");
+    if(res.error||!res.data) return;
+    var next={}; res.data.forEach(function(r){ next[r.beer_id]={n:Number(r.n)||0,avg:Number(r.avg_score)||0,third:Number(r.third)||0,half:Number(r.half)||0,full:Number(r.full)||0}; });
+    STATS=next; renderList();
+  }catch(e){}
+}
+
+/* ============ SIGN IN ============ */
+function showStep(step){ $("#stepAuth").hidden=step!=="auth"; $("#signForm").hidden=step!=="profile"; }
+function buildAuth(){
+  var box=$("#authBtns"); box.textContent="";
+  var p=CFG.providers||{google:true,apple:false,email:true};
+  if(p.google) box.appendChild(h("button",{class:"btn authbtn",type:"button",text:"Continue with Google",on:{click:function(){oauth("google")}}}));
+  if(p.apple) box.appendChild(h("button",{class:"btn authbtn",type:"button",text:"Continue with Apple",on:{click:function(){oauth("apple")}}}));
+  if(p.email) box.appendChild(h("button",{class:"btn alt authbtn",type:"button",text:"Continue with email",on:{click:function(){$("#emailForm").hidden=false;$("#aEmail").focus()}}}));
+}
+function openSign(){
+  $("#authErr").textContent=""; $("#signErr").textContent="";
+  if(!LIVE || authUser){
+    var pf=profile||{}; var meta=(authUser&&authUser.user_metadata)||{};
+    $("#fName").value=pf.name||meta.full_name||meta.name||"";
+    $("#fEmail").value=pf.email||(authUser&&authUser.email)||"";
+    $("#fConsent").checked=!!pf.consent;
+    $("#profSub").textContent=LIVE?"Nearly there. Tell us who you are.":"Tell us who you are so your ratings stay with you.";
+    showStep("profile");
+  } else { buildAuth(); $("#emailForm").hidden=true; showStep("auth"); }
+  $("#signScrim").classList.add("open");
+}
+function closeSign(){ $("#signScrim").classList.remove("open"); }
+async function oauth(provider){
+  $("#authErr").textContent="";
+  var res=await sb.auth.signInWithOAuth({provider:provider,options:{redirectTo:location.origin+location.pathname}});
+  if(res.error) $("#authErr").textContent="Could not start "+provider+" sign-in. Try email instead.";
+}
+async function submitEmail(e){
+  e.preventDefault();
+  var email=$("#aEmail").value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){$("#authErr").textContent="Enter a valid email address.";return}
+  var res=await sb.auth.signInWithOtp({email:email,options:{emailRedirectTo:location.origin+location.pathname}});
+  $("#authErr").textContent=res.error?"Could not send the link. Try again in a minute.":"Check your inbox for a sign-in link, then open it on this phone.";
+}
+async function submitSign(e){
+  e.preventDefault();
+  var name=$("#fName").value.trim(), email=$("#fEmail").value.trim(), consent=$("#fConsent").checked;
+  if(name.length<2){$("#signErr").textContent="Enter your name.";return}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){$("#signErr").textContent="Enter a valid email address, like name@example.com.";return}
+  if(LIVE){
+    var res=await sb.from("profiles").upsert({id:authUser.id,name:name,email:email,marketing_consent:consent,updated_at:new Date().toISOString()});
+    if(res.error){$("#signErr").textContent="Could not save your details. Check your signal and try again.";return}
+  } else { lsSet("pc_profile",{name:name,email:email,consent:consent}); }
+  profile={name:name,email:email,consent:consent};
+  closeSign(); renderWho(); renderList();
+}
+async function signOut(){
+  if(LIVE){ await sb.auth.signOut(); }
+  else { try{localStorage.removeItem("pc_profile");localStorage.removeItem("pc_mine")}catch(e){} profile=null; mine={}; renderWho(); renderList(); }
+}
+async function handleSession(session){
+  authUser=session?session.user:null;
+  if(!authUser){ profile=null; mine={}; drafts={}; renderWho(); renderList(); return; }
+  var p=await sb.from("profiles").select("name,email,marketing_consent").eq("id",authUser.id).maybeSingle();
+  if(p.data){ profile={name:p.data.name,email:p.data.email,consent:!!p.data.marketing_consent}; closeSign(); }
+  else { profile=null; openSign(); }
+  var r=await sb.from("ratings").select("beer_id,price,taste,score,size").eq("user_id",authUser.id);
+  mine={}; drafts={};
+  (r.data||[]).forEach(function(x){ mine[x.beer_id]={price:x.price||undefined,taste:x.taste||undefined,score:x.score==null?undefined:x.score,size:x.size||undefined}; });
+  renderWho(); renderList();
+}
+
+/* ============ INIT ============ */
+function wire(){
+  $("#q").addEventListener("input",function(e){query=e.target.value.trim().toLowerCase();renderList()});
+  $("#bannerBtn").addEventListener("click",openSign);
+  $("#signForm").addEventListener("submit",submitSign);
+  $("#emailForm").addEventListener("submit",submitEmail);
+  $("#signCancel").addEventListener("click",closeSign);
+  $("#signOutBtn").addEventListener("click",function(){ closeSign(); if(LIVE&&authUser) signOut(); });
+  $("#signScrim").addEventListener("click",function(e){if(e.target.id==="signScrim")closeSign()});
+}
+function applyList(list){
+  BEERS=list; openId=null;
+  if(types().indexOf(filterType)<0) filterType="All";
+  renderChips(); renderList();
+}
+async function loadBeers(){
+  try{
+    var res=await fetch("beers.json",{cache:"no-cache"}); if(!res.ok) return;
+    var data=await res.json(); var rows=Array.isArray(data)?data:(data.beers||[]);
+    if(rows.length) applyList(dedupe(rows.map(function(r){return mkBeer(r,data.edition||EDITION)})));
+  }catch(e){}
+}
+async function init(){
+  wire(); renderChips(); renderWho(); renderList();
+  loadBeers();
+  if(!LIVE){
+    profile=lsGet("pc_profile"); mine=lsGet("pc_mine")||{};
+    renderWho(); renderList();
+    return;
+  }
+  sb.auth.onAuthStateChange(function(ev,session){ setTimeout(function(){handleSession(session)},0); });
+  loadStats();
+  setInterval(function(){ if(!document.hidden) loadStats(); },60000);
+}
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+{
+ "edition": "2025",
+ "beers": [
+  {
+   "cat": "Cask",
+   "num": 1,
+   "name": "Tempo",
+   "brewery": "Siren",
+   "type": "Pale Ale",
+   "abv": 3.8,
+   "place": "Finchampstead, Berkshire",
+   "about": "Modern craft brewery founded in 2013, known for fruit-forward pales and IPAs, including its best-selling Lumina.",
+   "taste": "Bright and easy drinking. Sweet tropical fruit, sticky peach and citrus zest, finishing crisp with gentle bitterness.",
+   "pairing": "Fish and chips, grilled chicken, summer salads.",
+   "notes": "Brewed specially for cask."
+  },
+  {
+   "cat": "Cask",
+   "num": 2,
+   "name": "Nectaron",
+   "brewery": "Oakham",
+   "place": "Peterborough, Cambridgeshire",
+   "about": "Started in Rutland in 1993 and based in Peterborough since 1998. Says it was the first UK brewery to brew commercially with Citra hops."
+  },
+  {
+   "cat": "Cask",
+   "num": 3,
+   "name": "Oracle",
+   "brewery": "Salopian",
+   "type": "Golden Ale",
+   "abv": 4.0,
+   "place": "Hadnall, near Shrewsbury, Shropshire",
+   "about": "Shropshire brewer that moved to a bigger site at Hadnall in 2014. Cask is its heart, with keg, cans and bottles added since.",
+   "taste": "Crisp, sunflower-gold ale with a striking hop profile. Floral and grapefruit, dry and refreshing with a long citrus finish.",
+   "pairing": "Grilled fish, chicken salad, mild cheeses.",
+   "notes": "Award-winning: International Beer Challenge best ale and SIBA bottled golden champion."
+  },
+  {
+   "cat": "Cask",
+   "num": 4,
+   "name": "Littlemore Citra",
+   "brewery": "Ashover",
+   "type": "Session Pale Ale",
+   "abv": 4.1,
+   "place": "Clay Cross, Derbyshire",
+   "about": "Derbyshire brewery that began in 2007 in an old stable block.",
+   "taste": "Crisp and sharply citrus, lemon and grapefruit, with a bitter finish.",
+   "pairing": "Spicy chicken wings, fish tacos.",
+   "notes": "Multi-award-winning, single-hop Citra session beer."
+  },
+  {
+   "cat": "Cask",
+   "num": 5,
+   "name": "Deception",
+   "brewery": "Abbeydale",
+   "type": "Pale Ale",
+   "abv": 4.1,
+   "place": "Sheffield, South Yorkshire",
+   "about": "Sheffield brewery that has made Deception since 2008 and has passed 25 years of brewing.",
+   "taste": "Light, crisp and citrusy with a grapefruit bite.",
+   "pairing": "Seafood, sushi, goat's cheese.",
+   "notes": "A New Zealand-style pale ale built on Nelson Sauvin hops. Brewed since 2008."
+  },
+  {
+   "cat": "Cask",
+   "num": 6,
+   "name": "Spacelord",
+   "brewery": "Green Duck",
+   "place": "Stourbridge, West Midlands",
+   "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site."
+  },
+  {
+   "cat": "Cask",
+   "num": 7,
+   "name": "A King of Magic",
+   "brewery": "Castle Rock",
+   "place": "Nottingham",
+   "about": "Independent Nottingham brewery, brewing since 1997, with its own small estate of pubs."
+  },
+  {
+   "cat": "Cask",
+   "num": 8,
+   "name": "Art of the Van",
+   "brewery": "Fixed Wheel",
+   "place": "Blackheath, Black Country, West Midlands",
+   "about": "Set up in 2014 by cycling and brewing enthusiasts Scott Povey and Sharon Bryant, hence the bike-themed names. Brews on an eight-barrel plant and began canning in 2021."
+  },
+  {
+   "cat": "Cask",
+   "num": 9,
+   "name": "Ghost Ship",
+   "brewery": "Adnams",
+   "type": "Pale Ale",
+   "abv": 4.5,
+   "place": "Southwold, Suffolk",
+   "about": "Suffolk coastal brewer based in Southwold. Ghost Ship is its best-selling beer.",
+   "taste": "Lemon and lime, elderflower aroma, biscuity malt and a famous hoppy finish.",
+   "pairing": "Ploughman's lunch, grilled meat, spicy food, pizza.",
+   "notes": "Built around Citra hops with rye crystal malt."
+  },
+  {
+   "cat": "Cask",
+   "num": 10,
+   "name": "How Soon is Now",
+   "brewery": "Salopian",
+   "place": "Hadnall, near Shrewsbury, Shropshire",
+   "about": "Shropshire brewer that moved to a bigger site at Hadnall in 2014. Cask is its heart, with keg, cans and bottles added since."
+  },
+  {
+   "cat": "Cask",
+   "num": 11,
+   "name": "Sowing the Seed",
+   "brewery": "Twisted Barrel",
+   "place": "Coventry, West Midlands",
+   "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site."
+  },
+  {
+   "cat": "Cask",
+   "num": 12,
+   "name": "American Pale Ale",
+   "brewery": "Dark Star",
+   "type": "Pale Ale",
+   "abv": 4.7,
+   "place": "Chiswick, London",
+   "about": "Dark Star beers are listed by CAMRA as brewed by Fuller's in Chiswick. American Pale Ale is one of its classic cask beers.",
+   "taste": "Crisp and citrusy with a signature dry finish.",
+   "pairing": "Burgers, buffalo wings, tacos.",
+   "notes": "Cascade, Chinook and Centennial hops on Maris Otter malt."
+  },
+  {
+   "cat": "Cask",
+   "num": 13,
+   "name": "Fallen Angel",
+   "brewery": "Church End",
+   "type": "Premium Pale Ale",
+   "abv": 5.0,
+   "place": "Nuneaton, Warwickshire",
+   "about": "Started in 1994 in an old coffin shop in Shustoke and moved to its current site in 2001. Known for one-off specials and old-recipe beers.",
+   "pairing": "Roast chicken, mature cheddar.",
+   "notes": "Voted Best Strong Bitter at the Great British Beer Festival."
+  },
+  {
+   "cat": "Cask",
+   "num": 14,
+   "name": "Silver King",
+   "brewery": "Ossett",
+   "type": "American Pale",
+   "abv": 4.3,
+   "place": "Ossett, West Yorkshire",
+   "about": "Founded in 1998 behind the Brewers Pride pub in Ossett. Silver King and Excelsius were the original beers.",
+   "taste": "Citrus aroma, clean and crisp, with a drier bitter finish.",
+   "pairing": "Fish and chips, chicken, light curries.",
+   "notes": "Lager malt and Cascade hops. An award winner since 2001."
+  },
+  {
+   "cat": "Cask",
+   "num": 15,
+   "name": "Sherbert Lemon",
+   "brewery": "Riverhead",
+   "place": "Marsden, near Huddersfield, West Yorkshire",
+   "about": "Brewpub on the River Colne, brewing since 1995 and now part of the Ossett group. Its beer names are tied to local reservoirs."
+  },
+  {
+   "cat": "Cask",
+   "num": 16,
+   "name": "Blonde",
+   "brewery": "Green Duck",
+   "place": "Stourbridge, West Midlands",
+   "about": "Founded in 2012 by three friends. Brews modern, approachable beers and runs a large taproom on the brewery site."
+  },
+  {
+   "cat": "Cask",
+   "num": 17,
+   "name": "Rat to the Future",
+   "brewery": "Rat Brewery",
+   "place": "Huddersfield, West Yorkshire",
+   "about": "Brewery at the Rat & Ratchet pub, restarted in 2011 and part of the Ossett group. Known for rat-themed beer names."
+  },
+  {
+   "cat": "Cask",
+   "num": 18,
+   "name": "Ember",
+   "brewery": "Attic",
+   "place": "Stirchley, Birmingham",
+   "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley."
+  },
+  {
+   "cat": "Cask",
+   "num": 19,
+   "name": "Vicar's Ruin",
+   "brewery": "Church End",
+   "type": "Best Bitter",
+   "abv": 4.4,
+   "place": "Nuneaton, Warwickshire",
+   "about": "Started in 1994 in an old coffin shop in Shustoke and moved to its current site in 2001. Known for one-off specials and old-recipe beers.",
+   "taste": "Hoppy and bitter at first, softening to a delicate malt finish.",
+   "pairing": "Pub pies, sausages, cheddar.",
+   "notes": "Straw-coloured best bitter."
+  },
+  {
+   "cat": "Cask",
+   "num": 20,
+   "name": "Baltic Porter Coffee",
+   "brewery": "Titanic x Castle Rock",
+   "type": "Coffee Baltic Porter",
+   "abv": 4.8,
+   "place": "Stoke-on-Trent and Nottingham",
+   "about": "A collaboration. Titanic was founded in Burslem, Stoke-on-Trent in 1985 by brothers Keith and Dave Bott and is named after Captain Edward Smith, who came from Stoke. Castle Rock has brewed in Nottingham since 1997.",
+   "taste": "Soft chocolate and toasted malt with aromatic coffee and no harsh bitterness. A lighter, sessionable Baltic porter.",
+   "pairing": "Chocolate dessert, smoked sausage, blue cheese.",
+   "notes": "Collaboration brewed with Honduran coffee from Chartley Coffee, added in the mash."
+  },
+  {
+   "cat": "Cask",
+   "num": 21,
+   "name": "Blackheath Stour",
+   "brewery": "Fixed Wheel",
+   "type": "Stout",
+   "abv": 5.0,
+   "place": "Blackheath, Black Country, West Midlands",
+   "about": "Set up in 2014 by cycling and brewing enthusiasts Scott Povey and Sharon Bryant, hence the bike-themed names. Brews on an eight-barrel plant and began canning in 2021.",
+   "taste": "Full-bodied and fruity, with an oaky bitterness and a creamy dark-fruit finish.",
+   "pairing": "Steak pie, chocolate brownie, oysters.",
+   "notes": "Fixed Wheel's first beer, named after its Black Country home. Champion Winter Beer of Britain 2020. New Zealand Pacific Gem and English Bramling Cross hops."
+  },
+  {
+   "cat": "Keg",
+   "num": 1,
+   "name": "Lumina",
+   "brewery": "Siren",
+   "type": "Session IPA",
+   "abv": 4.2,
+   "place": "Finchampstead, Berkshire",
+   "about": "Modern craft brewery founded in 2013, known for fruit-forward pales and IPAs, including its best-selling Lumina.",
+   "taste": "Juicy tropical fruit with a pillowy soft mouthfeel and a light haze.",
+   "pairing": "Fish tacos, falafel, Thai food.",
+   "notes": "Siren's best seller since 2020. Vegan and gluten free."
+  },
+  {
+   "cat": "Keg",
+   "num": 2,
+   "name": "It must be love",
+   "brewery": "Twisted Barrel",
+   "place": "Coventry, West Midlands",
+   "about": "Launched in 2013 as a self-styled 'pico' brewery. Now brews at FarGo Village in Coventry, with a taphouse on site."
+  },
+  {
+   "cat": "Keg",
+   "num": 3,
+   "name": "Signals",
+   "brewery": "Attic",
+   "type": "IPA",
+   "abv": 5.6,
+   "place": "Stirchley, Birmingham",
+   "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley.",
+   "taste": "Citrus and stone fruit, leaning towards grapefruit and apricot.",
+   "pairing": "Burgers, spicy food.",
+   "notes": "Attic's core IPA. Vegan."
+  },
+  {
+   "cat": "Keg",
+   "num": 4,
+   "name": "HBD",
+   "brewery": "Attic",
+   "place": "Stirchley, Birmingham",
+   "about": "Founded in November 2018 by university friends Sam Back and Oli Hurlow. Makes vegan beers and runs a taproom in Stirchley."
+  },
+  {
+   "cat": "Cider",
+   "num": 1,
+   "name": "Pina Colada",
+   "brewery": "Lilley's",
+   "type": "Fruit Cider",
+   "abv": 3.4,
+   "place": "Somerset",
+   "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
+   "taste": "Pineapple, rum and coconut blended with crisp Somerset cider. Smooth, sweet and summery.",
+   "pairing": "Jerk chicken, grilled prawns.",
+   "notes": "Lightly sparkling."
+  },
+  {
+   "cat": "Cider",
+   "num": 2,
+   "name": "Rhubarb",
+   "brewery": "Lilley's",
+   "type": "Fruit Cider",
+   "abv": 4.0,
+   "place": "Somerset",
+   "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
+   "taste": "Sweet rhubarb flavour with a tart edge over a crisp apple base.",
+   "pairing": "Roast pork, mild cheeses.",
+   "notes": "Lightly sparkling."
+  },
+  {
+   "cat": "Cider",
+   "num": 3,
+   "name": "Sunset",
+   "brewery": "Lilley's",
+   "type": "Medium Cider",
+   "abv": 6.0,
+   "place": "Somerset",
+   "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
+   "taste": "Full-bodied and fruity, bursting with juicy apple.",
+   "pairing": "Pork pie, barbecue pork, cheddar.",
+   "notes": "Rustic, medium sweet."
+  },
+  {
+   "cat": "Cider",
+   "num": 4,
+   "name": "Bee Sting",
+   "brewery": "Lilley's",
+   "type": "Perry",
+   "abv": 6.8,
+   "place": "Somerset",
+   "about": "Somerset cider maker known for its fruit ciders and its award-winning Bee Sting perry.",
+   "taste": "Sparkling, medium-sweet perry with a subtle pear aroma.",
+   "pairing": "Blue cheese, duck, fruit desserts.",
+   "notes": "Award-winning perry. Gold, three-star Great Taste Award in 2018."
+  }
+ ]
+}
